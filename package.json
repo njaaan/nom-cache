@@ -22,6 +22,7 @@
         "build": "react-scripts build",
         "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
         "format-check": "prettier --check \"src/**/*.{ts,tsx,js,jsx}\"",
+        "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx}\"",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "pa11y-check": "pa11y-ci",
@@ -54,6 +55,7 @@
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-react": "^7.30.0",
         "husky": "^8.0.1",
+        "pa11y-ci": "^3.0.1",
         "prettier": "2.6.2"
     }
 }
