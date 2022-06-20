@@ -39,7 +39,7 @@ export default function App() {
                     </Routes>
                 </div>
             </Router>
-            <div className="App">
+            {/* <div className="App">
                 <header className="App-header">
                     <img src={logo} className="App-logo" alt="logo" />
                     <p>
@@ -54,7 +54,7 @@ export default function App() {
                         Learn React
                     </a>
                 </header>
-            </div>
+            </div> */}
         </section>
     )
 }

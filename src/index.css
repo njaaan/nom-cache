@@ -42,6 +42,9 @@ legend {
 
 label {
     padding-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 fieldset label {
