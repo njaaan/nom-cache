@@ -7,7 +7,10 @@ import reportWebVitals from './reportWebVitals'
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
     <React.StrictMode>
-        <App />
+        <div>
+            {/* <button onClick={addRestaurant}>Add TestRestaurant</button> */}
+            <App />
+        </div>
     </React.StrictMode>
 )
 

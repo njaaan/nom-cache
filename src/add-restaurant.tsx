@@ -1,5 +1,6 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { putData, fetchData } from './helpers'
 
 type RestaurantEntry = {
     restaurantName: string
@@ -21,7 +22,12 @@ export function AddRestaurant() {
         // watch,
         formState: { errors },
     } = useForm<RestaurantEntry>()
-    const onSubmit: SubmitHandler<RestaurantEntry> = (data) => console.log(data)
+    const onSubmit: SubmitHandler<RestaurantEntry> = (data) => {
+        console.log(data)
+        putData('restaurants', { id: '123', ...data })
+    }
+
+    console.log(fetchData('restaurants'))
 
     // console.log(watch('example')) // watch input value by passing the name of it
     console.log(errors)
