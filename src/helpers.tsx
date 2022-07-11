@@ -1,12 +1,7 @@
 import * as AWS from 'aws-sdk'
 import { ConfigurationOptions } from 'aws-sdk'
-
-const awsSecretKey: string =
-    process.env.REACT_APP_AWS_SECRET_ACCESS_KEY ??
-    'dotenv is missing the AWS secret acces key'
-const awsKeyID: string =
-    process.env.REACT_APP_AWS_ACCESS_KEY_ID ??
-    'dotenv is missing the AWS access ID'
+import { awsSecretKey, awsKeyID } from './secrets'
+// console.log('le process.env', process.env)
 
 const configuration: ConfigurationOptions = {
     region: 'eu-central-1',
@@ -27,6 +22,7 @@ export const fetchData = (tableName: string) => {
     return docClient.scan(params, function (err, data) {
         if (!err) {
             console.log(data)
+            return data
         }
     })
 }

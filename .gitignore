@@ -26,3 +26,4 @@ node_modules
 
 #added by njan
 .env
+src/secrets.tsx

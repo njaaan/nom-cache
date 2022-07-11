@@ -16,6 +16,8 @@ type RestaurantEntry = {
 }
 
 export function AddRestaurant() {
+    // use uuidpackage instead
+    const restaurantID = Math.floor(Math.random() * Date.now())
     const {
         register,
         handleSubmit,
@@ -24,10 +26,14 @@ export function AddRestaurant() {
     } = useForm<RestaurantEntry>()
     const onSubmit: SubmitHandler<RestaurantEntry> = (data) => {
         console.log(data)
-        putData('restaurants', { id: '123', ...data })
+        putData('nom_cache', {
+            partitionKey: `RESTAURANT#${restaurantID}`,
+            sortKey: `METADATA#${restaurantID}`,
+            ...data,
+        })
     }
 
-    console.log(fetchData('restaurants'))
+    console.log(fetchData('nom_cache'))
 
     // console.log(watch('example')) // watch input value by passing the name of it
     console.log(errors)
@@ -116,56 +122,3 @@ export function AddRestaurant() {
         </section>
     )
 }
-
-// export const AddRestaurant = (): JSX.Element => {
-//     return (
-//         <section>
-//             <h1>Add a new restaurant to the log</h1>
-//             <form method="post">
-//                 <label>
-//                     Name
-//                     <input type="text" name="restaurantName" />
-//                 </label>
-//                 <fieldset>
-//                     <legend>Address</legend>
-//                     <label>
-//                         Street
-//                         <input type="text" name="street" />
-//                     </label>
-//                     <label>
-//                         Number
-//                         <input type="text" name="housenumber" />
-//                     </label>
-//                     <label>
-//                         Zip Code
-//                         <input type="number" name="zipcode" />
-//                     </label>
-//                     <label>
-//                         City
-//                         <input type="text" name="city" />
-//                     </label>
-//                 </fieldset>
-//                 <fieldset>
-//                     <legend>Links</legend>
-//                     <label>
-//                         Happycow
-//                         <input type="text" name="happycow" />
-//                     </label>
-//                     <label>
-//                         Mastodon
-//                         <input type="text" name="mastodon" />
-//                     </label>
-//                     <label>
-//                         URL
-//                         <input type="text" name="restaurantUrl" />
-//                     </label>
-//                 </fieldset>{' '}
-//                 <label>
-//                     Comment
-//                     <textarea name="comment"></textarea>
-//                 </label>
-//                 <button type="submit">Save this restaurant to your log</button>
-//             </form>
-//         </section>
-//     )
-// }
