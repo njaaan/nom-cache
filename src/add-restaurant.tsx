@@ -1,6 +1,7 @@
 import React from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { putData, fetchData } from './helpers'
+import { nanoid } from 'nanoid'
 
 type RestaurantEntry = {
     restaurantName: string
@@ -15,9 +16,13 @@ type RestaurantEntry = {
     restaurantComment: string
 }
 
+const testlog = async () => {
+    console.log('all restaurants in the db: ', await fetchData('nom_cache'))
+}
+
 export function AddRestaurant() {
-    // use uuidpackage instead
-    const restaurantID = Math.floor(Math.random() * Date.now())
+    const restaurantID = nanoid()
+
     const {
         register,
         handleSubmit,
@@ -25,7 +30,7 @@ export function AddRestaurant() {
         formState: { errors },
     } = useForm<RestaurantEntry>()
     const onSubmit: SubmitHandler<RestaurantEntry> = (data) => {
-        console.log(data)
+        console.log('this is data: ', data)
         putData('nom_cache', {
             partitionKey: `RESTAURANT#${restaurantID}`,
             sortKey: `METADATA#${restaurantID}`,
@@ -33,7 +38,7 @@ export function AddRestaurant() {
         })
     }
 
-    console.log(fetchData('nom_cache'))
+    testlog()
 
     // console.log(watch('example')) // watch input value by passing the name of it
     console.log(errors)

@@ -7,7 +7,7 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
     <React.StrictMode>
         <div>
-            <p>Hi {process.env.REACT_APP_AWS_ACCESS_KEY_ID}</p>
+            <h1>Nom log</h1>
             {/* <button onClick={addRestaurant}>Add TestRestaurant</button> */}
             <App />
         </div>
