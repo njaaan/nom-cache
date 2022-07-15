@@ -1,5 +1,9 @@
-import React from 'react'
+import { AWSError } from 'aws-sdk'
+import { DocumentClient } from 'aws-sdk/clients/dynamodb'
+import React, { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
+
+import { fetchData } from './helpers'
 
 type DishEntry = {
     dishName: string
@@ -28,14 +32,36 @@ export function AddDish() {
     } = useForm<DishEntry>()
     const onSubmit: SubmitHandler<DishEntry> = (data) => console.log(data)
 
+    // alles im useeffect array sind dependencies und wenn sich 1 der dependencies ändert, wird useEffect noch mal ausgeführt. Bei emptyarray nur wenn die component initially geladen wird.
+    // Hier brauchen wir es auch nur 1x... for now
+
+    const getAllMyRestaurants = async () => {
+        const restaurantArray = await fetchData('nom_cache')
+        console.log(
+            'hier ist der restaurantarray: ',
+            JSON.stringify(restaurantArray)
+        )
+        setAllMyRestaurantsList(JSON.stringify(restaurantArray))
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [allMyRestaurantsList, setAllMyRestaurantsList] = useState<any>()
+    useEffect(() => {
+        if (!allMyRestaurantsList) {
+            getAllMyRestaurants()
+        }
+    })
+
     // console.log(watch('example')) // watch input value by passing the name of it
     // console.log(watch('dishRating'))
     console.log(errors)
+    // console.log('all my restaurants from AddDish: ', allMyRestaurants)
 
     return (
         /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
         <section>
             <h1>Add a new dish</h1>
+            <p>{allMyRestaurantsList}</p>
             <form onSubmit={handleSubmit(onSubmit)} method="post">
                 <label>
                     Dish Name
