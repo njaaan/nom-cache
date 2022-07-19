@@ -1,0 +1,44 @@
+name: 'some name'
+on:
+    push:
+        branches: ['*']
+jobs:
+    ci_job:
+        name: 'the ci job'
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout
+              uses: actions/checkout@v2
+              with:
+                  # this takes the commit-id as reference
+                  ref: ${{ github.event.release.target_commitish }}
+                  fetch-depth: 0
+                  # here we could also hand over (login) tokens
+                  # token: ${{ secrets.PACKAGES_TOKEN }}
+            - name: setup-node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 18
+                  # for additional security one can specify where to get all the modules/dependencies from
+                  # registry-url: https://npm.pkg.github.com
+                  # always-auth: true
+            - name: install-dependencies
+              # npm ci is an install from frozen lockfile so we don't add data different from the commit
+              run: npm ci
+            - name: test-format
+              run: npm run format-check
+            - name: test-lint
+              run: npm run lint
+            - name: build
+              # here we replace a secret within my code with a github secret. use 'process.env.SOME_SECRET' to access
+              env:
+                  SOME_SECRET: ${{ secrets.MY_TEST_SECRET }}
+              run: npm run build
+              # we test pa11y later because it needs a running server and build takes a long time to finish, as well as pa11y
+            - name: test-pa11y
+              run: npm run pa11y-check
+              # npm run test (could be added to this list once we have tests)
+
+    # cd_job:
+    #     name: 'the cd job'
+    #     runs-on: ubuntu-latest
